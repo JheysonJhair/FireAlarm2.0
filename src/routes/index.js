@@ -40,7 +40,7 @@ export default function Routes() {
           },
           headerTitleAlign: 'center',
           headerTintColor: '#fff',
-          title: 'Ubicación ',
+          title: 'Ubicación indicado',
         }}
       />
 

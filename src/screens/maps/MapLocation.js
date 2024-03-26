@@ -1,43 +1,41 @@
-import React, { useState, useEffect } from "react";
-import MapView, { Marker, Polyline } from "react-native-maps";
-import { StyleSheet, View, Image } from "react-native";
-import Buttonn from "../../components/forms/Buttonn";
-import StatusModal from "../../components/modals/StatusModal ";
-import { useNavigation } from "@react-navigation/native";
+import React, {useState, useEffect} from 'react';
+import {View, StyleSheet} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import MapView, {Marker} from 'react-native-maps';
+import Button from '../../components/forms/Button';
+import {fetchFireLocations} from '../../api/apiGetFire';
 
-function MapLocation() {
-  const [selectedLocation, setSelectedLocation] = useState(null);
+function MapLocationScreen({route}) {
   const navigation = useNavigation();
+  const {notification} = route.params;
 
-  const [modalVisible, setModalVisible] = useState(false);
-  const [modalStatus, setModalStatus] = useState("error");
-  const [text, setText] = useState("");
-  const [text2, setText2] = useState("");
+  const latitude = notification ? parseFloat(notification.Latitud) : 0;
+  const longitude = notification ? parseFloat(notification.Longitud) : 0;
 
-  const handleMapPress = (event) => {
-    const { coordinate } = event.nativeEvent;
-    setSelectedLocation(coordinate);
+  const [fireLocations, setFireLocations] = useState([]);
 
+  const handleAccept = () => {
+    const data = { accepted: true };
+    navigation.navigate('Information', { notification,acceptedData: data  });
   };
-
-  const handleLocation = () => {
-    setModalStatus("success");
-    setModalVisible(true);
-    setText("Ubicacion seleccionado");
-    setText2("La ubicacion del incendio ah sido actualizado");
-    navigation.navigate('Home', { selectedLocation });
+  
+  const handleReject = () => {
+    navigation.goBack();
   };
+  
 
   useEffect(() => {
-    if (modalVisible) {
-      const timeout = setTimeout(() => {
-        setModalVisible(false);
-      }, 3000);
+    const fetchData = async () => {
+      const locations = await fetchFireLocations();
+      setFireLocations(locations);
+    };
 
-      return () => clearTimeout(timeout);
-    }
-  }, [modalVisible]);
-  
+    fetchData();
+
+    const intervalId = setInterval(fetchData, 1000);
+    return () => clearInterval(intervalId);
+  }, []);
+
   return (
     <View style={styles.container}>
       <MapView
@@ -47,50 +45,60 @@ function MapLocation() {
           longitude: -72.8814,
           latitudeDelta: 0.02,
           longitudeDelta: 0.02,
-        }}
-        onPress={handleMapPress}
-      >
-        {selectedLocation && (
-          <Marker coordinate={selectedLocation}>
-            <Image
-              source={require("../../assets/img/fuego.png")} 
-              style={{ width: 30, height: 34 }} 
+        }}>
+        <Marker
+          coordinate={{
+            latitude: latitude,
+            longitude: longitude,
+          }}
+          title="Nueva Ubicación"
+          image={require('../../assets/fuego.png')}
+        />
+
+        {fireLocations.length > 0 &&
+          fireLocations.map((location, index) => (
+            <Marker
+              key={index}
+              coordinate={{
+                latitude: parseFloat(location.latitud),
+                longitude: parseFloat(location.longitud),
+              }}
+              title={`Temperatura: ${location.temperature}`}
+              description={`Fecha: ${location.date}`}
+              image={require('../../assets/img/fuego.png')}
             />
-          </Marker>
-        )}
+          ))}
       </MapView>
+
       <View style={styles.buttonContainer}>
-        <Buttonn
-          title="Aceptar "
-          onPress={handleLocation}
+        <Button title="Aceptar" onPress={handleAccept} />
+        <Button
+          title="Rechazar"
+          onPress={handleReject}
         />
       </View>
-      <StatusModal
-        visible={modalVisible}
-        status={modalStatus}
-        text={text}
-        text2={text2}
-      />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#002854',
   },
   map: {
-    width: "100%",
-    height: "100%",
+    flex: 1,
+    width: '100%',
   },
   buttonContainer: {
-    position: "absolute",
-    textAlign: "center",
-    justifyContent: "center",
+    position: 'absolute',
+    textAlign: 'center',
+    width: '30%',
+    justifyContent: 'center',
     bottom: 20,
     right: 8,
     zIndex: 1,
   },
 });
 
-export default MapLocation;
+export default MapLocationScreen;

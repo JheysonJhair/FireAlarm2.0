@@ -56,7 +56,8 @@ function Notify() {
                 <Notification
                   imageSource={{ uri: notification.Imagen }}
                   status={notification.Estado}
-                  location={"Abancay/Apurímac/Perú"}
+                  locationLatitude={notification.Latitud}
+                  locationLongitude={notification.Longitud}
                   date={formatDate(notification.Fecha)}
                 />
               </TouchableOpacity>
