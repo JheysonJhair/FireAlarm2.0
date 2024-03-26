@@ -32,8 +32,8 @@ export default function Login() {
   const { setUserInfo } = useUser();
 
   const [isChecked, setChecked] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("jhair@gmail.com");
+  const [password, setPassword] = useState("12345678");
 
   const onHandleLogin = async (email, password) => {
     try {

@@ -1,17 +1,19 @@
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-import Load from "../screens/home/Load";
-import Welcome from "../screens/home/Welcome";
-import Login from "../screens/auth/Login";
-import Register from "../screens/auth/Register";
-import Home from "../screens/home/Home";
-import ForgetPassword from "../screens/auth/ForgetPassword";
-import MapLocation from "../screens/maps/MapLocation";
-import Options from "../screens/home/Options";
-import Reporte from "../screens/home/Reporte";
-import Notify from "../screens/admin/Notify";
-import NotificationDetail from "../screens/admin/NotificationDetail";
-import Satelite from "../screens/satelite/Satelite";
+import Load from '../screens/home/Load';
+import Welcome from '../screens/home/Welcome';
+import Login from '../screens/auth/Login';
+import Register from '../screens/auth/Register';
+import Home from '../screens/home/Home';
+import ForgetPassword from '../screens/auth/ForgetPassword';
+import MapLocation from '../screens/maps/MapLocation';
+import Options from '../screens/home/Options';
+import Reporte from '../screens/home/Reporte';
+import Notify from '../screens/admin/Notify';
+import NotificationDetail from '../screens/admin/NotificationDetail';
+import Satelite from '../screens/satelite/Satelite';
+import NotificationDetailUser from '../screens/home/NotificationDetailUser';
+import MapUser from '../screens/maps/MapUser';
 
 const Stack = createNativeStackNavigator();
 
@@ -21,7 +23,7 @@ export default function Routes() {
       <Stack.Screen
         name="Load"
         component={Load}
-        options={{ headerShown: false }}
+        options={{headerShown: false}}
       />
 
       <Stack.Screen
@@ -30,41 +32,59 @@ export default function Routes() {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: "#161B21",
+            backgroundColor: '#161B21',
           },
           headerTitleStyle: {
-            color: "#fff",
-            textAlign: "center",
+            color: '#fff',
+            textAlign: 'center',
           },
-          headerTitleAlign: "center",
-          headerTintColor: "#fff",
-          title: "Ubicación de tienda",
+          headerTitleAlign: 'center',
+          headerTintColor: '#fff',
+          title: 'Ubicación ',
+        }}
+      />
+
+      <Stack.Screen
+        name="MapScreen"
+        component={MapUser}
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#161B21',
+          },
+          headerTitleStyle: {
+            color: '#fff',
+            textAlign: 'center',
+          },
+          headerTitleAlign: 'center',
+          headerTintColor: '#fff',
+          title: 'Ubicación',
         }}
       />
       <Stack.Screen
         name="Welcome"
         component={Welcome}
-        options={{ headerShown: false }}
+        options={{headerShown: false}}
       />
       <Stack.Screen
         name="ForgetPassword"
         component={ForgetPassword}
-        options={{ headerShown: false }}
+        options={{headerShown: false}}
       />
       <Stack.Screen
         name="Login"
         component={Login}
-        options={{ headerShown: false }}
+        options={{headerShown: false}}
       />
       <Stack.Screen
         name="Register"
         component={Register}
-        options={{ headerShown: false }}
+        options={{headerShown: false}}
       />
       <Stack.Screen
         name="Home"
         component={Home}
-        options={{ headerShown: false }}
+        options={{headerShown: false}}
       />
       <Stack.Screen
         name="Options"
@@ -72,15 +92,15 @@ export default function Routes() {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: "#161B21",
+            backgroundColor: '#161B21',
           },
           headerTitleStyle: {
-            color: "#fff",
-            textAlign: "center",
+            color: '#fff',
+            textAlign: 'center',
           },
-          headerTitleAlign: "center",
-          headerTintColor: "#fff",
-          title: "Seleccione una opción",
+          headerTitleAlign: 'center',
+          headerTintColor: '#fff',
+          title: 'Seleccione una opción',
         }}
       />
       <Stack.Screen
@@ -89,15 +109,15 @@ export default function Routes() {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: "#161B21",
+            backgroundColor: '#161B21',
           },
           headerTitleStyle: {
-            color: "#fff",
-            textAlign: "center",
+            color: '#fff',
+            textAlign: 'center',
           },
-          headerTitleAlign: "center",
-          headerTintColor: "#fff",
-          title: "Reporte realizado",
+          headerTitleAlign: 'center',
+          headerTintColor: '#fff',
+          title: 'Reporte realizado',
         }}
       />
       <Stack.Screen
@@ -106,15 +126,15 @@ export default function Routes() {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: "#161B21",
+            backgroundColor: '#161B21',
           },
           headerTitleStyle: {
-            color: "#fff",
-            textAlign: "center",
+            color: '#fff',
+            textAlign: 'center',
           },
-          headerTitleAlign: "center",
-          headerTintColor: "#fff",
-          title: "Notificaciones",
+          headerTitleAlign: 'center',
+          headerTintColor: '#fff',
+          title: 'Notificaciones',
         }}
       />
       <Stack.Screen
@@ -123,21 +143,38 @@ export default function Routes() {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: "#161B21",
+            backgroundColor: '#161B21',
           },
           headerTitleStyle: {
-            color: "#fff",
-            textAlign: "center",
+            color: '#fff',
+            textAlign: 'center',
           },
-          headerTitleAlign: "center",
-          headerTintColor: "#fff",
-          title: "Información",
+          headerTitleAlign: 'center',
+          headerTintColor: '#fff',
+          title: 'Información',
+        }}
+      />
+      <Stack.Screen
+        name="InformationUser"
+        component={NotificationDetailUser}
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#161B21',
+          },
+          headerTitleStyle: {
+            color: '#fff',
+            textAlign: 'center',
+          },
+          headerTitleAlign: 'center',
+          headerTintColor: '#fff',
+          title: 'Información de mi reporte',
         }}
       />
       <Stack.Screen
         name="Satelite"
         component={Satelite}
-        options={{ headerShown: false }}
+        options={{headerShown: false}}
       />
     </Stack.Navigator>
   );

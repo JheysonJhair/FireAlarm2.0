@@ -48,7 +48,7 @@ const ImagePickerComponent = ({ onImageSelected }) => {
           <Text style={styles.buttonText}>Seleccionar de galería</Text>
         </TouchableOpacity>
         <TouchableOpacity style={[styles.button, styles.buttonSmall]} onPress={handleTakePhoto}>
-          <Text style={styles.buttonText}><Ionicons name="camera" size={24} color="white" /></Text>
+          <Text style={styles.buttonText}><Ionicons name="camera" size={21} color="white" /></Text>
         </TouchableOpacity>
       </View>
 
@@ -61,7 +61,7 @@ const ImagePickerComponent = ({ onImageSelected }) => {
       )}
       {!image && (
         <View style={styles.placeholder}>
-          <Ionicons name="camera" size={54} color="#3c4e70" />
+          <Ionicons name="image" size={30} color="#3c4e70" />
           <Text style={styles.placeholderText}>Selecciona una imagen</Text>
         </View>
       )}
