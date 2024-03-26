@@ -14,6 +14,7 @@ import NotificationDetail from '../screens/admin/NotificationDetail';
 import Satelite from '../screens/satelite/Satelite';
 import NotificationDetailUser from '../screens/home/NotificationDetailUser';
 import MapUser from '../screens/maps/MapUser';
+import MapLocationUser from '../screens/maps/MapLocationUser';
 
 const Stack = createNativeStackNavigator();
 
@@ -43,7 +44,23 @@ export default function Routes() {
           title: 'Ubicación indicado',
         }}
       />
-
+      <Stack.Screen
+        name="mapLocationUser"
+        component={MapLocationUser}
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#161B21',
+          },
+          headerTitleStyle: {
+            color: '#fff',
+            textAlign: 'center',
+          },
+          headerTitleAlign: 'center',
+          headerTintColor: '#fff',
+          title: 'Elige una ubicación',
+        }}
+      />
       <Stack.Screen
         name="MapScreen"
         component={MapUser}
@@ -117,7 +134,7 @@ export default function Routes() {
           },
           headerTitleAlign: 'center',
           headerTintColor: '#fff',
-          title: 'Reporte realizado',
+          title: 'Mis reportes',
         }}
       />
       <Stack.Screen

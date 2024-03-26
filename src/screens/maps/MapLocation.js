@@ -1,13 +1,14 @@
-import React, {useState, useEffect} from 'react';
-import {View, StyleSheet} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import MapView, {Marker} from 'react-native-maps';
-import Button from '../../components/forms/Button';
-import {fetchFireLocations} from '../../api/apiGetFire';
+import React, { useState, useEffect } from 'react';
+import { View, StyleSheet, Image, TouchableOpacity, Text } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import MapView, { Marker } from 'react-native-maps';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'; 
 
-function MapLocationScreen({route}) {
+import { fetchFireLocations } from '../../api/apiGetFire';
+
+function MapLocationScreen({ route }) {
   const navigation = useNavigation();
-  const {notification} = route.params;
+  const { notification } = route.params;
 
   const latitude = notification ? parseFloat(notification.Latitud) : 0;
   const longitude = notification ? parseFloat(notification.Longitud) : 0;
@@ -16,13 +17,12 @@ function MapLocationScreen({route}) {
 
   const handleAccept = () => {
     const data = { accepted: true };
-    navigation.navigate('Information', { notification,acceptedData: data  });
+    navigation.navigate('Information', { notification, acceptedData: data });
   };
-  
+
   const handleReject = () => {
     navigation.goBack();
   };
-  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -52,7 +52,7 @@ function MapLocationScreen({route}) {
             longitude: longitude,
           }}
           title="Nueva Ubicación"
-          image={require('../../assets/fuego.png')}
+          image={require('../../assets/bombero.png')}
         />
 
         {fireLocations.length > 0 &&
@@ -64,22 +64,28 @@ function MapLocationScreen({route}) {
                 longitude: parseFloat(location.longitud),
               }}
               title={`Temperatura: ${location.temperature}`}
-              description={`Fecha: ${location.date}`}
-              image={require('../../assets/img/fuego.png')}
-            />
+              description={`Fecha: ${location.date}`}>
+              <Image
+                source={require('../../assets/img/fuego.png')}
+                style={{ width: 33, height: 33 }}
+              />
+            </Marker>
           ))}
       </MapView>
 
       <View style={styles.buttonContainer}>
-        <Button title="Aceptar" onPress={handleAccept} />
-        <Button
-          title="Rechazar"
-          onPress={handleReject}
-        />
+        <TouchableOpacity style={styles.button}  onPress={handleAccept}>
+          <FontAwesome5 name="check" size={20} color="#fff" style={styles.icon} />
+          <Text style={styles.buttonText}>Aceptar</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={[styles.button, styles.rejectButton]} onPress={handleReject}>
+          <FontAwesome5 name="times" size={20} color="#fff" style={styles.icon} />
+          <Text style={styles.buttonText}>Rechazar</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -92,12 +98,32 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     position: 'absolute',
-    textAlign: 'center',
-    width: '30%',
-    justifyContent: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     bottom: 20,
     right: 8,
     zIndex: 1,
+  },
+  button: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#3c5070',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+    marginLeft:10
+  },
+  rejectButton: {
+    backgroundColor: '#f20000',
+  },
+  buttonText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#fff',
+    marginLeft: 5,
+  },
+  icon: {
+    marginRight: 5,
   },
 });
 

@@ -55,44 +55,14 @@ export const updateMensaje = async (idMensaje, estado) => {
   }
 };
 
-
-//Satelite
-export const fetchFireLocations = async (latitude, longitude, temperature) => {
-  try {
-    const response = await fetch(
-      "https://satlled.ccontrolz.com/tsatelite/insertar",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          latitud: latitude,
-          longitud: longitude,
-          temperature: temperature,
-        }),
-      }
-    );
-
-    if (response.ok) {
-      return "termino";
-    } else {
-      throw new Error(`Error en la solicitud POST: ${response.status}`);
-    }
-  } catch (error) {
-    console.error("Error al enviar la solicitud POST:", error);
-    throw error;
-  }
-};
-
 export const enviarNotificacion = async () => {
   const url = "https://fcm.googleapis.com/fcm/send";
   const body = {
     to: "/topics/test",
     notification: {
-      body: "jueanito cloud body",
-      title: "eaxaswerick",
-      subtitle: "erasesubtitle",
+      body: "Se esta pr",
+      title: "Alerta de incendio! 🔥",
+      subtitle: "El evento se presento hoy día...",
       image:
         "https://images.freeimages.com/images/large-previews/e4f/un-fueguito-little-fire-1190570.jpg",
     },

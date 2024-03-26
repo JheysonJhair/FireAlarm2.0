@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
   },
   textoBoton: {
     fontSize: 19,
-    fontFamily: "Montserrat_800ExtraBold",
+    fontWeight: "bold",
   },
 });
 

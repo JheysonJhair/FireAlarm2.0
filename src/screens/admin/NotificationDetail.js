@@ -3,6 +3,7 @@ import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import Button from '../../components/forms/Button';
 import {deleteMensaje, updateMensaje} from '../../api/apiFire';
 import {useNavigation} from '@react-navigation/native';
+import { enviarNotificacion } from '../../api/apiFire';
 
 function formatDateString(dateString) {
   const date = new Date(dateString);
@@ -42,6 +43,7 @@ function NotificationDetail({route}) {
     if (route.params && route.params.acceptedData) {
       const acceptedData = route.params.acceptedData;
       handleStatusChange(1)
+      enviarNotificacion();
     }
   }, [route.params]);
   //

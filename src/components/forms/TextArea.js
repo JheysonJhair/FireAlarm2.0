@@ -8,7 +8,6 @@ const TextArea = ({ placeholder, onChangeText, value }) => {
       placeholder={placeholder}
       onChangeText={onChangeText}
       value={value}
-      autoCapitalize="none"
       placeholderTextColor="#7899bc"
       multiline
       numberOfLines={3}

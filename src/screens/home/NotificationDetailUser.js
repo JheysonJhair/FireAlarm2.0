@@ -12,11 +12,10 @@ function formatDateString(dateString) {
 }
 
 function NotificationDetailUser({ route }) {
-  const { reporte, direccion } = route.params; 
+  const { reporte } = route.params; 
   const navigation = useNavigation();
 
   const handleMapNavigation = () => {
-    console.log(reporte.Latitud, reporte.Longitud)
     navigation.navigate('MapScreen', { latitude: reporte.Latitud, longitude: reporte.Longitud });
   };
 
@@ -28,19 +27,25 @@ function NotificationDetailUser({ route }) {
         resizeMode="cover"
       />
       <View style={styles.content}>
-        <Text style={styles.title}>UBICACIÓN: {reporte.direccion}</Text> 
-        <Text style={styles.date}>
-          Fecha del suceso: {formatDateString(reporte.Fecha)}
-        </Text>
-        <Text style={styles.title2}>Indicación:</Text>
-        <Text style={styles.description}>{reporte.Descripcion}</Text>
+        <Text style={styles.title}>DETALLES DEL REPORTE</Text>
+        <View style={styles.infoContainer}>
+          <Text style={styles.infoLabel}>Fecha del suceso:</Text>
+          <Text style={styles.infoText}>{formatDateString(reporte.Fecha)}</Text>
+        </View>
+        <View style={styles.infoContainer}>
+          <Text style={styles.infoLabel}>Dirección:</Text>
+          <Text style={styles.infoText}>{reporte.direccion}</Text>
+        </View>
+        <View style={styles.infoContainer}>
+          <Text style={styles.infoLabel}>Indicación:</Text>
+          <Text style={styles.infoText}>{reporte.Descripcion}</Text>
+        </View>
         <TouchableOpacity style={styles.mapButton} onPress={handleMapNavigation}>
-          <Ionicons name="map-marker" size={24} color="#fff" style={styles.mapIcon} />
+          <Ionicons name="map" size={24} color="#fff" style={styles.mapIcon} />
           <Text style={styles.mapButtonText}>VER EN EL MAPA</Text>
         </TouchableOpacity>
-        <View style={styles.linea}>
-          <Text style={styles.title2}>Caso: Admitido</Text>
-        </View>
+        <View style={styles.linea} />
+        <Text style={styles.status}>SITUACION DEL CASO: Admitido</Text>
       </View>
     </View>
   );
@@ -55,34 +60,21 @@ const styles = StyleSheet.create({
     height: 260,
   },
   content: {
-    paddingHorizontal: 10,
+    paddingHorizontal: 20,
     paddingTop: 20,
   },
   title: {
     fontSize: 24,
     fontWeight: "bold",
+    textAlign: "center",
     marginBottom: 10,
-  },
-  title2: {
-    fontSize: 19,
-    fontWeight: "bold",
-    marginBottom: 10,
-  },
-  date: {
-    fontSize: 16,
-    marginBottom: 20,
-    color: "#777",
-    fontWeight: "bold",
-  },
-  description: {
-    fontSize: 16,
-    marginBottom: 20,
-    color: "#777",
+    color: "#29364c",
   },
   mapButton: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#47a0ff",
+    justifyContent: "center", 
+    backgroundColor: "#29364c",
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,
@@ -96,10 +88,27 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#fff",
   },
+  infoContainer: {
+    marginBottom: 15,
+  },
+  infoLabel: {
+    fontSize: 16,
+    fontWeight: "bold",
+    marginBottom: 5,
+  },
+  infoText: {
+    fontSize: 16,
+    color: "#777",
+  },
   linea: {
     borderTopWidth: 1,
     borderTopColor: "#ccc",
-    paddingTop: 10,
+    marginTop: 20,
+  },
+  status: {
+    fontSize: 19,
+    fontWeight: "bold",
+    marginTop: 10,
   },
 });
 

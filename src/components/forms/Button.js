@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "white",
     fontSize: 19,
-    fontFamily: "Montserrat_800ExtraBold",
+    fontWeight: "bold",
   },
 });
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect} from 'react';
 import CheckBox from '@react-native-community/checkbox';
 import {
   View,
@@ -6,66 +6,67 @@ import {
   StyleSheet,
   ActivityIndicator,
   KeyboardAvoidingView,
-} from "react-native";
+  Image
+} from 'react-native';
 
-import { useNavigation } from "@react-navigation/native";
+import {useNavigation} from '@react-navigation/native';
 
-import Button from "../../components/forms/Button";
-import Input from "../../components/forms/Input";
-import InputPassword from "../../components/forms/InputPassword";
-import GoogleButton from "../../components/forms/GoogleButton";
-import FacebookButton from "../../components/forms/FacebookButton";
-import StatusModal from "../../components/modals/StatusModal ";
+import Button from '../../components/forms/Button';
+import Input from '../../components/forms/Input';
+import InputPassword from '../../components/forms/InputPassword';
+import GoogleButton from '../../components/forms/GoogleButton';
+import FacebookButton from '../../components/forms/FacebookButton';
+import StatusModal from '../../components/modals/StatusModal ';
 
-import { useUser } from "../../hooks/UserContext";
-import { loginUser } from "../../api/apiLogin";
+import {useUser} from '../../hooks/UserContext';
+import {loginUser} from '../../api/apiLogin';
 
 export default function Login() {
   const navigation = useNavigation();
   const [isLoading, setIsLoading] = useState(false);
 
   const [modalVisible, setModalVisible] = useState(false);
-  const [modalStatus, setModalStatus] = useState("error");
-  const [text, setText] = useState("");
-  const [text2, setText2] = useState("");
+  const [modalStatus, setModalStatus] = useState('error');
+  const [text, setText] = useState('');
+  const [text2, setText2] = useState('');
 
-  const { setUserInfo } = useUser();
+  const {setUserInfo} = useUser();
 
   const [isChecked, setChecked] = useState(false);
-  const [email, setEmail] = useState("admin");
-  const [password, setPassword] = useState("admin");
+  const [email, setEmail] = useState('admin');
+  const [password, setPassword] = useState('admin');
 
   const onHandleLogin = async (email, password) => {
     try {
       if (!email || !password) {
-        setModalStatus("error");
+        setModalStatus('error');
         setModalVisible(true);
-        setText("Campos vacios");
-        setText2("Complete todos los campos, es necesario!");
+        setText('Campos vacios');
+        setText2('Complete todos los campos, es necesario!');
         return;
       }
-      if (email == "admin" && password == "admin") {
-        navigation.navigate("Admin");
+      if (email == 'admin' && password == 'admin') {
+        navigation.navigate('Admin');
         setIsLoading(false);
         return;
       }
-      if (email == "satelite" && password == "satelite") {
-        navigation.navigate("Satelite");
+      if (email == 'satelite' && password == 'satelite') {
+        navigation.navigate('Satelite');
         setIsLoading(false);
         return;
       }
       const emailRegex = /\S+@\S+\.\S+/;
       if (!emailRegex.test(email)) {
-        setModalStatus("error");
+        setModalStatus('error');
         setModalVisible(true);
-        setText("Correo invalido");
-        setText2("Por favor, utiliza una cuenta de Gmail.");
+        setText('Correo invalido');
+        setText2('Por favor, utiliza una cuenta de Gmail.');
         return;
       }
 
       const user = await loginUser(email, password);
       setIsLoading(true);
-      if (user.msg == "Ingreso correctamente") {
+      if (user.msg == 'Ingreso correctamente') {
         setIsLoading(false);
         setUserInfo({
           IdUsuario: user.value.IdUsuario,
@@ -76,30 +77,30 @@ export default function Login() {
           Telefono: user.value.Telefono,
         });
 
-        setModalStatus("success");
+        setModalStatus('success');
         setModalVisible(true);
-        setText("Ingreso!");
+        setText('Ingreso!');
         setText2(`Bienvenido ${user.value.Nombre}`);
         const timeout = setTimeout(() => {
-          navigation.navigate("Options");
+          navigation.navigate('Options');
         }, 1500);
       } else {
-        setModalStatus("error");
+        setModalStatus('error');
         setModalVisible(true);
-        setText("Error de ingreso");
-        setText2("Crea una cuenta, es muy rápido!");
+        setText('Error de ingreso');
+        setText2('Crea una cuenta, es muy rápido!');
       }
     } catch (error) {
       setIsLoading(false);
-      console.error("Error al iniciar sesión:", error);
+      console.error('Error al iniciar sesión:', error);
     }
   };
 
   const handleRegister = () => {
-    navigation.navigate("Register");
+    navigation.navigate('Register');
   };
   const handleForgotPassword = () => {
-    navigation.navigate("ForgetPassword");
+    navigation.navigate('ForgetPassword');
   };
 
   useEffect(() => {
@@ -120,7 +121,13 @@ export default function Login() {
         </View>
       ) : (
         <>
-          <Text style={styles.h1}>FireAlarm</Text>
+          <View>
+            <Image
+              source={require('../../assets/logo.png')}
+              style={styles.logo}
+            />
+            <Text style={styles.h1}>FireAlarm</Text>
+          </View>
           <Text style={styles.h2}>Hola, Bienvenido de nuevo</Text>
           <Text style={styles.h3}>
             Introduce tus credenciales para continuar
@@ -129,30 +136,29 @@ export default function Login() {
           <View style={styles.formContainer}>
             <Input
               placeholder="Email"
-              onChangeText={(text) => setEmail(text)}
+              onChangeText={text => setEmail(text)}
               value={email}
             />
             <InputPassword
               placeholder="Contraseña"
-              onChangeText={(text) => setPassword(text)}
+              onChangeText={text => setPassword(text)}
               value={password}
               editable={true}
             />
             <View style={styles.checkboxContainer}>
               <View style={styles.rowContainer}>
                 <View style={styles.izquierda}>
-                <CheckBox
+                  <CheckBox
                     value={isChecked}
                     onValueChange={setChecked}
-                    tintColors={{ true: "#2e4466", false: undefined }}
+                    tintColors={{true: '#2e4466', false: undefined}}
                   />
                   <Text style={styles.checkboxLabel}>Recuérdame</Text>
                 </View>
                 <View style={styles.derecha}>
                   <Text
                     style={styles.forgotPassword}
-                    onPress={handleForgotPassword}
-                  >
+                    onPress={handleForgotPassword}>
                     Olvidaste tu contraseña?
                   </Text>
                 </View>
@@ -166,7 +172,7 @@ export default function Login() {
 
           <View style={styles.texto}>
             <Text style={styles.h3}>
-              No tienes cuenta?{" "}
+              No tienes cuenta?{' '}
               <Text style={styles.span} onPress={handleRegister}>
                 Registrate
               </Text>
@@ -179,10 +185,10 @@ export default function Login() {
           </View>
           <View style={styles.socialButtonsContainer}>
             <GoogleButton
-              onPress={() => console.log("Botón de Google presionado")}
+              onPress={() => console.log('Botón de Google presionado')}
             />
             <FacebookButton
-              onPress={() => console.log("Botón de Facebook presionado")}
+              onPress={() => console.log('Botón de Facebook presionado')}
             />
           </View>
           <StatusModal
@@ -200,26 +206,26 @@ export default function Login() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FAFAFF",
-    alignItems: "center",
-    justifyContent: "center",
-    width: "100%",
+    backgroundColor: '#FAFAFF',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
   },
   formContainer: {
-    width: "80%",
-    alignItems: "center",
-    justifyContent: "center",
+    width: '80%',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   h1: {
-    fontFamily: "Montserrat_800ExtraBold",
+    fontWeight: 'bold',
     fontSize: 36,
-    color: "#000000",
+    color: '#000000',
     marginBottom: 5,
-    marginTop: 20,
+    marginTop: 10,
   },
   h2: {
-    fontFamily: "Montserrat_800ExtraBold",
-    color: "#000",
+    fontWeight: 'bold',
+    color: '#000',
     fontSize: 20,
     marginTop: 15,
   },
@@ -227,67 +233,75 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   h3: {
-    color: "#A3AABF",
+    color: '#A3AABF',
     fontSize: 14,
     marginBottom: 25,
   },
   span: {
-    color: "#2e4466",
-    fontWeight: "bold",
+    color: '#2e4466',
+    fontWeight: 'bold',
   },
   //checkboxContainer
   checkboxContainer: {
     marginTop: 15,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     marginBottom: 10,
   },
   rowContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    width: "95%",
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '100%',
   },
   izquierda: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   derecha: {
     width: 200,
-    alignItems: "flex-end",
+    alignItems: 'flex-end',
   },
   checkboxLabel: {
-    color: "#000",
+    color: '#000',
     fontSize: 13,
     marginLeft: 5,
   },
   forgotPassword: {
-    color: "#2e4466",
+    color: '#2e4466',
     fontSize: 13,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   //Linea
   dividerContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
     marginVertical: 15,
   },
   dividerLine: {
-    width: "32%",
+    width: '32%',
     height: 1,
-    backgroundColor: "#1B2536",
+    backgroundColor: '#1B2536',
   },
   dividerText: {
-    color: "#000",
+    color: '#000',
     marginHorizontal: 10,
-    fontFamily: "Montserrat_800ExtraBold",
+    fontWeight: 'bold',
   },
   //Google y Facebook
   socialButtonsContainer: {
-    flexDirection: "row",
-    justifyContent: "center",
+    flexDirection: 'row',
+    justifyContent: 'center',
     marginTop: 8,
-    width: "95%",
+    width: '95%',
+  },
+  logo: {
+    width: 50,
+    height: 50,
+    resizeMode: 'contain',
+    position: 'absolute',
+    top: -30,
+    right: -20,
   },
 });

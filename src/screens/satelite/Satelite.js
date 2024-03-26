@@ -3,9 +3,9 @@ import { View, StyleSheet, Text, TextInput, Image } from "react-native";
 import Button2 from "../../components/forms/Button2";
 import MapView, { Marker } from "react-native-maps";
 
-import { fetchFireLocations } from "../../api/apiFire";
+import { insertFireLocations } from "../../api/apiGetFire";
 import StatusModal from "../../components/modals/StatusModal ";
-import { enviarNotificacion } from '../../api/apiFire';
+
 
 export default function Satelite() {
   const [selectedLocation, setSelectedLocation] = useState(null);
@@ -45,7 +45,7 @@ export default function Satelite() {
     const { latitude, longitude } = selectedLocation;
 
     try {
-      const response = await fetchFireLocations(
+      const response = await insertFireLocations(
         latitude,
         longitude,
         temperature
@@ -55,7 +55,6 @@ export default function Satelite() {
         setModalVisible(true);
         setText("Proceso terminado con éxito");
         setText2("La simulación de incendio ha sido completada correctamente.");
-        enviarNotificacion();
       } else {
         setModalStatus("error");
         setModalVisible(true);

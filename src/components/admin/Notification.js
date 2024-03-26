@@ -35,6 +35,7 @@ const Notification = ({ imageSource, locationLatitude, locationLongitude, date, 
   switch (status) {
     case 1:
       statusIcon = <Icon name="exclamation-circle" size={30} color="#47a0ff" />;
+      
       break;
     case 0:
       statusIcon = (

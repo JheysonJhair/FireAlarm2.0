@@ -23,7 +23,7 @@ const styles = {
   socialButtonText: {
     fontSize: 20,
     color: "#fff",
-    fontFamily: "Montserrat_800ExtraBold",
+    fontWeight: "bold",
   },
 };
 

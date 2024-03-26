@@ -57,11 +57,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 20,
   },
-  h2: {
-    fontFamily: "Montserrat_800ExtraBold",
-    color: "#000",
-    fontSize: 20,
-    marginBottom: 20,
+  logo: {
+    width: 50,
+    height: 50,
+    resizeMode: 'contain',
+    position: 'absolute',
+    top: -30,
+    right: -20,
   },
 });
 
