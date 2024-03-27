@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "1023625651977",
-    "project_id": "firealarm-e2722",
-    "storage_bucket": "firealarm-e2722.appspot.com"
+    "project_number": "372093333237",
+    "project_id": "firealarm-2f88f",
+    "storage_bucket": "firealarm-2f88f.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1023625651977:android:de9ba65154ccaf9bdb95d8",
+        "mobilesdk_app_id": "1:372093333237:android:988455ffb6f23542129fbc",
         "android_client_info": {
           "package_name": "com.firealarm"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBe-y2HvdWQMl1qXjMy0JEa1RGnQpo8V-Q"
+          "current_key": "AIzaSyCVLK9RmB03biQK2cBM5Rb4Aq_cyNbsdY4"
         }
       ],
       "services": {

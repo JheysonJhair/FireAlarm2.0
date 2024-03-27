@@ -3,7 +3,7 @@ import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import Button from '../../components/forms/Button';
 import {deleteMensaje, updateMensaje} from '../../api/apiFire';
 import {useNavigation} from '@react-navigation/native';
-import { enviarNotificacion } from '../../api/apiFire';
+import { enviarNotificacionEncamino, enviarNotificacionControlado } from '../../api/apiFire';
 
 function formatDateString(dateString) {
   const date = new Date(dateString);
@@ -41,16 +41,19 @@ function NotificationDetail({route}) {
   //
   useEffect(() => {
     if (route.params && route.params.acceptedData) {
-      const acceptedData = route.params.acceptedData;
       handleStatusChange(1)
-      enviarNotificacion();
+      enviarNotificacionEncamino();
     }
   }, [route.params]);
   //
   const handleStatusChange = async status => {
     try {
+      if(status == 2) {
+        enviarNotificacionControlado();
+      }
       await updateMensaje(notification.IdMensaje, status);
       setSelectedStatus(status);
+
     } catch (error) {
       console.error('Error al actualizar el estado del mensaje:', error);
     }
