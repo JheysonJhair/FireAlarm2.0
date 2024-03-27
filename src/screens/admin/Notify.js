@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { View, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
-import Notification from "../../components/admin/Notification";
+import React, {useState, useEffect} from 'react';
+import {View, StyleSheet, ScrollView, TouchableOpacity} from 'react-native';
+import Notification from '../../components/admin/Notification';
 
-import LoadingIndicator from "../../components/modals/LoadingIndicator";
-import { fetchNotify } from "../../api/apiFire";
-import { useNavigation } from "@react-navigation/native";
+import LoadingIndicator from '../../components/modals/LoadingIndicator';
+import {fetchNotify} from '../../api/apiFire';
+import {useNavigation} from '@react-navigation/native';
 
 function Notify() {
   const [notifications, setNotifications] = useState([]);
@@ -19,7 +19,7 @@ function Notify() {
         setNotifications(data);
         setIsLoading(false);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error('Error fetching data:', error);
         setIsLoading(false);
       }
     };
@@ -32,12 +32,12 @@ function Notify() {
     return () => clearInterval(intervalId);
   }, []);
 
-  const handleNotificationPress = (notification) => {
-    navigation.navigate("Information", { notification });
+  const handleNotificationPress = notification => {
+    navigation.navigate('Information', {notification});
   };
 
-  const formatDate = (dateString) => {
-    const dateParts = dateString.split("T");
+  const formatDate = dateString => {
+    const dateParts = dateString.split('T');
     return dateParts[0];
   };
 
@@ -51,10 +51,9 @@ function Notify() {
             {notifications.map((notification, index) => (
               <TouchableOpacity
                 key={index}
-                onPress={() => handleNotificationPress(notification)}
-              >
+                onPress={() => handleNotificationPress(notification)}>
                 <Notification
-                  imageSource={{ uri: notification.Imagen }}
+                  imageSource={{uri: notification.Imagen}}
                   status={notification.Estado}
                   locationLatitude={notification.Latitud}
                   locationLongitude={notification.Longitud}
@@ -72,7 +71,7 @@ function Notify() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#ffffff",
+    backgroundColor: '#ffffff',
   },
   content: {
     paddingTop: 18,
@@ -81,7 +80,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 24,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     marginBottom: 20,
   },
 });
