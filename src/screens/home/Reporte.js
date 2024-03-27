@@ -1,25 +1,52 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity } from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
 import Button from '../../components/forms/Button';
-import { useNavigation } from '@react-navigation/native';
-import { getReporte } from '../../api/apiUser';
-import { useUser } from '../../hooks/UserContext';
+import {useNavigation} from '@react-navigation/native';
+import {getReporte} from '../../api/apiUser';
+import {useUser} from '../../hooks/UserContext';
 import LoadingIndicator from '../../components/modals/LoadingIndicator';
 
 const Reporte = () => {
   const navigation = useNavigation();
-  const { userData } = useUser();
+  const {userData} = useUser();
   const [reportes, setReportes] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+
+  const getStatusDetails = estado => {
+    switch (estado) {
+      case 0:
+        return {text: 'No atendido', color: '#007bff'};
+      case 1:
+        return {text: 'En camino', color: '#dc3545'};
+      case 2:
+        return {text: 'Controlado', color: '#28a745'};
+      case 3:
+        return {text: 'Rechazado', color: '#ffc107'};
+      default:
+        return {text: '', color: '#666'};
+    }
+  };
 
   useEffect(() => {
     const fetchReportes = async () => {
       try {
         const data = await getReporte(userData.IdUsuario);
-        const reportesWithDireccion = await Promise.all(data.map(async (reporte) => {
-          const direccion = await obtenerDireccion(reporte.Latitud, reporte.Longitud);
-          return { ...reporte, direccion };
-        }));
+        const reportesWithDireccion = await Promise.all(
+          data.map(async reporte => {
+            const direccion = await obtenerDireccion(
+              reporte.Latitud,
+              reporte.Longitud,
+            );
+            return {...reporte, direccion};
+          }),
+        );
         setReportes(reportesWithDireccion);
         setIsLoading(false);
       } catch (error) {
@@ -49,7 +76,9 @@ const Reporte = () => {
 
   const obtenerDireccion = async (latitud, longitud) => {
     try {
-      const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitud},${longitud}&key=AIzaSyAzjcbLSKk0Bh881pDOETrB1erl1zIjQds`);
+      const response = await fetch(
+        `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitud},${longitud}&key=AIzaSyAzjcbLSKk0Bh881pDOETrB1erl1zIjQds`,
+      );
       const data = await response.json();
       return data.results[0].formatted_address;
     } catch (error) {
@@ -58,8 +87,8 @@ const Reporte = () => {
     }
   };
 
-  const handleNotificationPress = (reporte) => {
-    navigation.navigate("InformationUser", { reporte });
+  const handleNotificationPress = reporte => {
+    navigation.navigate('InformationUser', {reporte});
   };
 
   return (
@@ -73,7 +102,7 @@ const Reporte = () => {
               key={index}
               onPress={() => handleNotificationPress(reporte)}>
               <View style={styles.reportContainer}>
-                <Image source={{ uri: reporte.Imagen }} style={styles.image} />
+                <Image source={{uri: reporte.Imagen}} style={styles.image} />
                 <View style={styles.textContainer}>
                   <Text style={styles.reportTitle}>Incendio Reportado</Text>
                   <Text style={styles.location}>
@@ -81,13 +110,20 @@ const Reporte = () => {
                   </Text>
                 </View>
                 <View>
+                  <Text
+                    style={{
+                      ...styles.anuncio,
+                      color: getStatusDetails(reporte.Estado).color,
+                    }}>
+                    {getStatusDetails(reporte.Estado).text}
+                  </Text>
                   <Text style={styles.date}>{formatDate(reporte.Fecha)}</Text>
                 </View>
               </View>
             </TouchableOpacity>
           ))}
           <Button title="Otro reporte" onPress={() => handleHome()} />
-          <View style={{ height: 40 }}></View>
+          <View style={{height: 40}}></View>
         </View>
       )}
     </ScrollView>
@@ -139,6 +175,11 @@ const styles = StyleSheet.create({
   date: {
     fontSize: 14,
     color: '#666',
+  },
+  anuncio: {
+    fontSize: 13,
+    fontWeight: 'bold',
+    color: '#29364c',
   },
 });
 

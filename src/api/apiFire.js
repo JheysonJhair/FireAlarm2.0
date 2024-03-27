@@ -62,7 +62,7 @@ export const enviarNotificacionEncamino = async () => {
     notification: {
       title: '¡Alerta de incendio! 🔥',
       subtitle: 'El evento se presentó hoy día...',
-      body: 'Los equipos de emergencia y la valiente respuesta de los bomberos, el fuego está siendo controlado eficazmente.',
+      body: 'Los equipos de emergencia y la valiente respuesta de los bomberos estan en camino. ',
       image: 'https://cdn-icons-png.flaticon.com/512/122/122492.png',
     },
   };

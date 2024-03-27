@@ -1,7 +1,7 @@
-import React from "react";
-import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import Ionicons from "react-native-vector-icons/FontAwesome";
+import React from 'react';
+import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import Ionicons from 'react-native-vector-icons/FontAwesome';
 
 function formatDateString(dateString) {
   const date = new Date(dateString);
@@ -11,18 +11,36 @@ function formatDateString(dateString) {
   return `${day}/${month}/${year}`;
 }
 
-function NotificationDetailUser({ route }) {
-  const { reporte } = route.params; 
+const getStatusText = estado => {
+  switch (estado) {
+    case 0:
+      return 'No atendido';
+    case 1:
+      return 'En camino';
+    case 2:
+      return 'Controlado';
+    case 3:
+      return 'Rechazado';
+    default:
+      return '';
+  }
+};
+
+function NotificationDetailUser({route}) {
+  const {reporte} = route.params;
   const navigation = useNavigation();
 
   const handleMapNavigation = () => {
-    navigation.navigate('MapScreen', { latitude: reporte.Latitud, longitude: reporte.Longitud });
+    navigation.navigate('MapScreen', {
+      latitude: reporte.Latitud,
+      longitude: reporte.Longitud,
+    });
   };
 
   return (
     <View style={styles.container}>
       <Image
-        source={{ uri: reporte.Imagen }}
+        source={{uri: reporte.Imagen}}
         style={styles.image}
         resizeMode="cover"
       />
@@ -40,12 +58,16 @@ function NotificationDetailUser({ route }) {
           <Text style={styles.infoLabel}>Indicación:</Text>
           <Text style={styles.infoText}>{reporte.Descripcion}</Text>
         </View>
-        <TouchableOpacity style={styles.mapButton} onPress={handleMapNavigation}>
+        <TouchableOpacity
+          style={styles.mapButton}
+          onPress={handleMapNavigation}>
           <Ionicons name="map" size={24} color="#fff" style={styles.mapIcon} />
           <Text style={styles.mapButtonText}>VER EN EL MAPA</Text>
         </TouchableOpacity>
         <View style={styles.linea} />
-        <Text style={styles.status}>SITUACION DEL CASO: Admitido</Text>
+        <Text style={styles.status}>
+          SITUACION DEL CASO: {getStatusText(reporte.Estado)}
+        </Text>
       </View>
     </View>
   );
@@ -56,7 +78,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   image: {
-    width: "100%",
+    width: '100%',
     height: 260,
   },
   content: {
@@ -65,16 +87,16 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 24,
-    fontWeight: "bold",
-    textAlign: "center",
+    fontWeight: 'bold',
+    textAlign: 'center',
     marginBottom: 10,
-    color: "#29364c",
+    color: '#29364c',
   },
   mapButton: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center", 
-    backgroundColor: "#29364c",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#29364c',
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,
@@ -85,29 +107,29 @@ const styles = StyleSheet.create({
   },
   mapButtonText: {
     fontSize: 16,
-    fontWeight: "bold",
-    color: "#fff",
+    fontWeight: 'bold',
+    color: '#fff',
   },
   infoContainer: {
     marginBottom: 15,
   },
   infoLabel: {
     fontSize: 16,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     marginBottom: 5,
   },
   infoText: {
     fontSize: 16,
-    color: "#777",
+    color: '#777',
   },
   linea: {
     borderTopWidth: 1,
-    borderTopColor: "#ccc",
+    borderTopColor: '#ccc',
     marginTop: 20,
   },
   status: {
     fontSize: 19,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     marginTop: 10,
   },
 });

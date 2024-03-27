@@ -1,9 +1,13 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
-import Button from '../../components/forms/Button';
+
 import {deleteMensaje, updateMensaje} from '../../api/apiFire';
 import {useNavigation} from '@react-navigation/native';
-import { enviarNotificacionEncamino, enviarNotificacionControlado } from '../../api/apiFire';
+import {
+  enviarNotificacionEncamino,
+  enviarNotificacionControlado,
+} from '../../api/apiFire';
+import StatusModal from '../../components/modals/StatusModal ';
 
 function formatDateString(dateString) {
   const date = new Date(dateString);
@@ -18,6 +22,21 @@ function NotificationDetail({route}) {
   const [address, setAddress] = useState('');
   const [selectedStatus, setSelectedStatus] = useState(notification.Estado);
   const navigation = useNavigation();
+
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalStatus, setModalStatus] = useState('error');
+  const [text, setText] = useState('');
+  const [text2, setText2] = useState('');
+
+  useEffect(() => {
+    if (modalVisible) {
+      const timeout = setTimeout(() => {
+        setModalVisible(false);
+      }, 1500);
+
+      return () => clearTimeout(timeout);
+    }
+  }, [modalVisible]);
 
   useEffect(() => {
     const obtenerDireccion = async () => {
@@ -41,19 +60,19 @@ function NotificationDetail({route}) {
   //
   useEffect(() => {
     if (route.params && route.params.acceptedData) {
-      handleStatusChange(1)
+      handleStatusChange(1);
       enviarNotificacionEncamino();
     }
   }, [route.params]);
   //
   const handleStatusChange = async status => {
     try {
-      if(status == 2) {
+      console.log(status);
+      if (status == 2) {
         enviarNotificacionControlado();
       }
       await updateMensaje(notification.IdMensaje, status);
       setSelectedStatus(status);
-
     } catch (error) {
       console.error('Error al actualizar el estado del mensaje:', error);
     }
@@ -65,6 +84,21 @@ function NotificationDetail({route}) {
       navigation.goBack();
     } catch (error) {
       console.error('Error al eliminar el mensaje:', error);
+    }
+  };
+
+  const onRechazar = async id => {
+    try {
+      await updateMensaje(id, 3);
+      setModalStatus('success');
+      setModalVisible(true);
+      setText('Notificación rechazada!');
+      setText2('La notificación fue rechazado con exito!');
+      const timeout = setTimeout(() => {
+        navigation.goBack();
+      }, 1500);
+    } catch (error) {
+      console.error('Error al rechazar el mensaje:', error);
     }
   };
 
@@ -112,11 +146,28 @@ function NotificationDetail({route}) {
             <Text style={styles.buttonText}>Controlado</Text>
           </TouchableOpacity>
         </View>
-        <Button
-          title="Eliminar notificación"
-          onPress={() => onDelete(notification.IdMensaje)}
-        />
+        <View style={styles.linea}>
+          <Text style={styles.title2}>Opciones extras</Text>
+        </View>
+        <View style={styles.buttonsContainer}>
+          <TouchableOpacity
+            style={[styles.button2]}
+            onPress={() => onDelete(notification.IdMensaje)}>
+            <Text style={styles.buttonText}>Eliminar Notificación</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.button2]}
+            onPress={() => onRechazar(notification.IdMensaje)}>
+            <Text style={styles.buttonText}>Rechazar Notificación</Text>
+          </TouchableOpacity>
+        </View>
       </View>
+      <StatusModal
+        visible={modalVisible}
+        status={modalStatus}
+        text={text}
+        text2={text2}
+      />
     </View>
   );
 }
@@ -157,6 +208,7 @@ const styles = StyleSheet.create({
   buttonsContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    marginBottom: 10,
   },
   linea: {
     borderTopWidth: 1,
@@ -171,6 +223,15 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginRight: 10,
     backgroundColor: '#676770',
+  },
+  button2: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    borderRadius: 5,
+    marginRight: 10,
+    backgroundColor: '#29364c',
   },
   selectedButton: {
     backgroundColor: '#FF6347',

@@ -6,7 +6,7 @@ import {
   StyleSheet,
   ActivityIndicator,
   KeyboardAvoidingView,
-  Image
+  Image,
 } from 'react-native';
 
 import {useNavigation} from '@react-navigation/native';
@@ -33,8 +33,8 @@ export default function Login() {
   const {setUserInfo} = useUser();
 
   const [isChecked, setChecked] = useState(false);
-  const [email, setEmail] = useState('admin');
-  const [password, setPassword] = useState('admin');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const onHandleLogin = async (email, password) => {
     try {
